@@ -44,6 +44,7 @@ const formatDateOnly = (ts, tz) =>
   formatLocal(ts, tz, { year: "numeric", month: "2-digit", day: "2-digit" });
 const formatTimeOnly = (ts, tz) =>
   formatLocal(ts, tz, { hour: "2-digit", minute: "2-digit", hourCycle: "h12" });
+
 function isDay(item, timezoneOffset, sun = null) {
   if (!item) return true;
   const icon = item.weather?.[0]?.icon;
@@ -215,6 +216,7 @@ const state = {
   forecastCache: {},
   cacheTTL: 1000 * 60 * 5,
 };
+
 function updateCurrentWeather(data) {
   if (!data) return;
   const {
@@ -300,6 +302,7 @@ function updateCurrentWeather(data) {
     setText("lastUpdated", new Date().toLocaleString());
   animateEl(document.querySelector(".cityHeader"));
 }
+
 function updateFiveDayForecast(list, timezone) {
   if (!list || !list.length) return;
   const byDate = {};
@@ -343,6 +346,7 @@ function updateFiveDayForecast(list, timezone) {
     idx++;
   });
 }
+
 function updateTodayHourly(list, timezone) {
   const cards = document.querySelectorAll(".todayTemp");
   if (!cards.length || !list || !list.length) return;
@@ -373,6 +377,7 @@ function updateTodayHourly(list, timezone) {
     animateEl(card);
   });
 }
+
 function mapAQIToLabel(aqi) {
   return (
     { 1: "Good", 2: "Fair", 3: "Moderate", 4: "Poor", 5: "Very Poor" }[aqi] ||
@@ -392,10 +397,11 @@ function getAQIClass(aqi) {
   if (n <= 100) return "aqi-moderate";
   return "aqi-poor";
 }
+
 async function fetchAQIData(lat, lon) {
   if (!lat || !lon) return;
   try {
-    const url = `/.netlify/functions/aqi?lat=${encodeURIComponent(
+    const url = `/.netlify/functions/openweather?endpoint=air_pollution&lat=${encodeURIComponent(
       lat
     )}&lon=${encodeURIComponent(lon)}`;
     const res = await fetchWithTimeout(url, {}, 10000);
@@ -432,11 +438,12 @@ async function fetchAQIData(lat, lon) {
     console.error("AQI fetch error:", err);
   }
 }
+
 async function reverseGeocode(lat, lon) {
   try {
-    const url = `/.netlify/functions/reverseGeocode?lat=${encodeURIComponent(
+    const url = `/.netlify/functions/openweather?endpoint=geocode_reverse&lat=${encodeURIComponent(
       lat
-    )}&lon=${encodeURIComponent(lon)}`;
+    )}&lon=${encodeURIComponent(lon)}&limit=1`;
     const res = await fetchWithTimeout(url, {}, 8000);
     if (!res.ok) {
       console.warn("Reverse geocode failed:", res.status);
@@ -454,6 +461,7 @@ async function reverseGeocode(lat, lon) {
     return null;
   }
 }
+
 async function fetchWithTimeout(resource, options = {}, timeout = 10000) {
   const controller = new AbortController();
   const id = setTimeout(() => controller.abort(), timeout);
@@ -467,6 +475,7 @@ async function fetchWithTimeout(resource, options = {}, timeout = 10000) {
     throw err;
   }
 }
+
 async function fetchForecast(lat, lon, tz) {
   if (!lat || !lon) return;
   try {
@@ -478,9 +487,9 @@ async function fetchForecast(lat, lon, tz) {
       updateTodayHourly(cached.data.list, tz);
       return;
     }
-    const url = `/.netlify/functions/forecast?lat=${encodeURIComponent(
+    const url = `/.netlify/functions/openweather?endpoint=forecast&lat=${encodeURIComponent(
       lat
-    )}&lon=${encodeURIComponent(lon)}`;
+    )}&lon=${encodeURIComponent(lon)}&units=metric`;
     const res = await fetchWithTimeout(url, {}, 12000);
     if (!res.ok) {
       if (handleHttpError(res, "Forecast")) return;
@@ -496,6 +505,7 @@ async function fetchForecast(lat, lon, tz) {
     console.error("Forecast error:", err);
   }
 }
+
 async function fetchDataCity(cityName, saveToStorage = true) {
   if (!cityName) return;
   if (state.lastFetchController)
@@ -504,9 +514,9 @@ async function fetchDataCity(cityName, saveToStorage = true) {
     } catch (e) {}
   state.lastFetchController = new AbortController();
   try {
-    const url = `/.netlify/functions/weather?city=${encodeURIComponent(
+    const url = `/.netlify/functions/openweather?endpoint=weather&q=${encodeURIComponent(
       cityName
-    )}`;
+    )}&units=metric`;
     const res = await fetchWithTimeout(
       url,
       { signal: state.lastFetchController.signal },
@@ -541,6 +551,7 @@ async function fetchDataCity(cityName, saveToStorage = true) {
     showToast("Network error fetching weather");
   }
 }
+
 async function fetchDataByCoords(lat, lon) {
   if (!lat || !lon) return;
   if (state.lastFetchController)
@@ -557,9 +568,9 @@ async function fetchDataByCoords(lat, lon) {
       state.lastFetchController = null;
       return;
     }
-    const url = `/.netlify/functions/weatherByCoords?lat=${encodeURIComponent(
+    const url = `/.netlify/functions/openweather?endpoint=weather&lat=${encodeURIComponent(
       lat
-    )}&lon=${encodeURIComponent(lon)}`;
+    )}&lon=${encodeURIComponent(lon)}&units=metric`;
     const res = await fetchWithTimeout(
       url,
       { signal: state.lastFetchController.signal },
@@ -584,6 +595,7 @@ async function fetchDataByCoords(lat, lon) {
     console.error("fetchDataByCoords error:", err);
   }
 }
+
 async function fetchData() {
   const inp = document.querySelector(".inputField");
   if (!inp) return;
@@ -591,6 +603,7 @@ async function fetchData() {
   if (!city) return showToast("Please enter a city name.");
   await fetchDataCity(city, true);
 }
+
 async function initAutoLocationAndLastCity() {
   try {
     const last = localStorage.getItem("lastCity");
@@ -617,38 +630,47 @@ async function initAutoLocationAndLastCity() {
     console.error("initAutoLocationAndLastCity error:", err);
   }
 }
+
 function _cleanVarValue(v) {
   if (v === null || v === undefined) return "";
   return String(v).trim();
 }
+
 async function initDarkMode() {
   const root = document.documentElement;
   const body = document.body;
-  const computedBg = _cleanVarValue(
+
+  let computedBg = _cleanVarValue(
     getComputedStyle(root).getPropertyValue("--bg-image")
   );
+  if (!computedBg || computedBg === "none") {
+    computedBg = _cleanVarValue(
+      getComputedStyle(body).getPropertyValue("--bg-image")
+    );
+  }
   const originalBg =
     computedBg && computedBg !== "none"
       ? computedBg
       : `url("${ICON_FOLDER}background.jpg")`;
   root.dataset.originalBg = originalBg;
+
   const resolvedDarkUrlRaw = await resolveDarkBackground("dark_background");
   const resolvedDark = resolvedDarkUrlRaw
     ? `url("${resolvedDarkUrlRaw}")`
     : `url("${ICON_FOLDER}dark_background.jpg")`;
   root.dataset.darkBg = resolvedDark;
   root.style.setProperty("--bg-image-dark", resolvedDark);
+
   const stored = localStorage.getItem("darkMode") === "1";
   if (stored) {
-    if (!body.classList.contains("dark-mode")) body.classList.add("dark-mode");
-    if (resolvedDark) root.style.setProperty("--bg-image", resolvedDark);
-    else root.style.setProperty("--bg-image", originalBg);
+    body.classList.add("dark-mode");
+    root.style.setProperty("--bg-image", root.dataset.darkBg || originalBg);
   } else {
+    body.classList.remove("dark-mode");
     root.style.setProperty("--bg-image", originalBg);
-    if (body.classList.contains("dark-mode"))
-      body.classList.remove("dark-mode");
   }
 }
+
 document.addEventListener("DOMContentLoaded", async () => {
   const inp = document.querySelector(".inputField");
   if (inp)
@@ -661,6 +683,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       localStorage.removeItem("lastCity");
       showToast("Last saved city cleared.");
     });
+
   const darkButtons = Array.from(document.querySelectorAll("#darkModeBtn"));
   if (darkButtons.length > 1) darkButtons.slice(1).forEach((el) => el.remove());
   const darkBtnEl = document.getElementById("darkModeBtn");
@@ -686,11 +709,13 @@ document.addEventListener("DOMContentLoaded", async () => {
           ""
       );
       if (isDark) {
-        if (darkBg) root.style.setProperty("--bg-image", darkBg);
-        else root.style.setProperty("--bg-image", originalBg);
-      } else root.style.setProperty("--bg-image", originalBg);
+        root.style.setProperty("--bg-image", darkBg || originalBg);
+      } else {
+        root.style.setProperty("--bg-image", originalBg);
+      }
     });
   }
+
   await initDarkMode();
   initAutoLocationAndLastCity();
 });
