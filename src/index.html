@@ -23,6 +23,10 @@
             onclick="fetchData()"
           />
         </div>
+        <div class="action-buttons">
+          <button id="clearLastBtn" class="action-btn">Clear Last</button>
+          <button id="darkModeBtn" class="action-btn">Dark</button>
+        </div>
       </div>
     </div>
 
@@ -34,8 +38,8 @@
               <h6 id="cityName">City Name</h6>
               <p id="skyDesc">Sky Description • Light clouds</p>
             </div>
-            <div class="weatherBadge">
-              <img src="../images/cloud-big.png" alt="icon" />
+            <div class="weatherBadge currentWeatherIcon">
+              <img src="../images/unknown.png" alt="icon" />
             </div>
           </div>
 
@@ -73,7 +77,7 @@
           <div class="forecastList">
             <div class="forecastRow">
               <div class="tempIcon">
-                <img src="../images/cloud.png" width="35" />
+                <img src="../images/cloudy.png" width="35" alt="cloudy" />
                 <h6>7 <span class="small-deg">°C</span></h6>
               </div>
               <div class="forecastText">
@@ -84,7 +88,7 @@
 
             <div class="forecastRow">
               <div class="tempIcon">
-                <img src="../images/cloud.png" width="35" />
+                <img src="../images/cloudy.png" width="35" alt="cloudy" />
                 <h6>8 <span class="small-deg">°C</span></h6>
               </div>
               <div class="forecastText">
@@ -95,7 +99,7 @@
 
             <div class="forecastRow">
               <div class="tempIcon">
-                <img src="../images/cloud.png" width="35" />
+                <img src="../images/cloudy.png" width="35" alt="cloudy" />
                 <h6>9 <span class="small-deg">°C</span></h6>
               </div>
               <div class="forecastText">
@@ -106,7 +110,7 @@
 
             <div class="forecastRow">
               <div class="tempIcon">
-                <img src="../images/cloud.png" width="35" />
+                <img src="../images/cloudy.png" width="35" alt="cloudy" />
                 <h6>7 <span class="small-deg">°C</span></h6>
               </div>
               <div class="forecastText">
@@ -117,7 +121,7 @@
 
             <div class="forecastRow">
               <div class="tempIcon">
-                <img src="../images/cloud.png" width="35" />
+                <img src="../images/cloudy.png" width="35" alt="cloudy" />
                 <h6>6 <span class="small-deg">°C</span></h6>
               </div>
               <div class="forecastText">
@@ -211,7 +215,7 @@
 
             <div class="sunContent mt-3">
               <div class="sunBlock">
-                <img src="../images/sun.png" />
+                <img src="../images/clear_day.png" alt="sun" />
                 <div class="text-left">
                   <h6 class="m-0">Sunrise</h6>
                   <h5 id="sunriseTime" class="m-0">6:00 AM</h5>
@@ -220,7 +224,7 @@
               </div>
 
               <div class="sunBlock">
-                <img src="../images/moon.png" />
+                <img src="../images/clear_night.png" alt="moon" />
                 <div class="text-left">
                   <h6 class="m-0">Sunset</h6>
                   <h5 id="sunsetTime" class="m-0">7:00 PM</h5>
@@ -247,32 +251,32 @@
           <div class="d-flex justify-content-between hourlyWrap">
             <div class="todayTemp">
               <h6 class="m-0">9:00 AM</h6>
-              <img src="../images/cloudy.png" alt="" width="35" />
+              <img src="../images/partly_cloudy_day.png" alt="" width="35" />
               <h5>15<span class="small-deg">°C</span></h5>
             </div>
             <div class="todayTemp">
               <h6 class="m-0">12:00 PM</h6>
-              <img src="../images/sunny.png" alt="" width="35" />
+              <img src="../images/clear_day.png" alt="" width="35" />
               <h5>20<span class="small-deg">°C</span></h5>
             </div>
             <div class="todayTemp">
               <h6 class="m-0">3:00 PM</h6>
-              <img src="../images/cloudy.png" alt="" width="35" />
+              <img src="../images/partly_cloudy_day.png" alt="" width="35" />
               <h5>18<span class="small-deg">°C</span></h5>
             </div>
             <div class="todayTemp">
               <h6 class="m-0">6:00 PM</h6>
-              <img src="../images/night.png" alt="" width="35" />
+              <img src="../images/clear_night.png" alt="" width="35" />
               <h5>14<span class="small-deg">°C</span></h5>
             </div>
             <div class="todayTemp">
               <h6 class="m-0">9:00 PM</h6>
-              <img src="../images/moon.png" alt="" width="35" />
+              <img src="../images/clear_night.png" alt="" width="35" />
               <h5>12<span class="small-deg">°C</span></h5>
             </div>
             <div class="todayTemp">
               <h6 class="m-0">12:00 AM</h6>
-              <img src="../images/night.png" alt="" width="35" />
+              <img src="../images/clear_night.png" alt="" width="35" />
               <h5>10<span class="small-deg">°C</span></h5>
             </div>
           </div>
