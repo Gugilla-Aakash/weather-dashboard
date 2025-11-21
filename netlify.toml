@@ -7,3 +7,8 @@
   to = "/.netlify/functions/:splat"
   status = 200
   force = true
+
+[build]
+  command = "npm run build"
+  publish = "."
+  functions = "netlify/functions"
