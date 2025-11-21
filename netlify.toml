@@ -1,6 +1,8 @@
+# netlify.toml - single build block only
 [build]
-  publish = "dist" # or "." / "public" / whatever folder your site is served from
-  command = "npm run build" # if you don't have a build step set to "" or remove
+  command = "npm run build"
+  publish = "."
+  functions = "netlify/functions"
 
 [[redirects]]
   from = "/api/*"
@@ -8,7 +10,3 @@
   status = 200
   force = true
 
-[build]
-  command = "npm run build"
-  publish = "."
-  functions = "netlify/functions"
