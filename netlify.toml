@@ -1,7 +1,7 @@
 # netlify.toml - single build block only
 [build]
   command = "npm run build"
-  publish = "."
+  publish = "src"
   functions = "netlify/functions"
 
 [[redirects]]
