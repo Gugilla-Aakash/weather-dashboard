@@ -16,7 +16,6 @@ A clean glassmorphism interface with real-time weather data, AQI metrics, hourly
 ![Mobile Light](./screenshots/mobile-light.jpeg)
 ![Mobile Dark](./screenshots/mobile-dark.jpeg)
 
-
 ---
 
 ## 🚀 Quick elevator pitch (what I would tell a hiring manager)
