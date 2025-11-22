@@ -1,4 +1,4 @@
-const ICON_FOLDER = "/images/";
+const ICON_FOLDER = "../images/";
 const LOCAL_FALLBACK_ICON = ICON_FOLDER + "unknown.png";
 
 function setText(id, value) {

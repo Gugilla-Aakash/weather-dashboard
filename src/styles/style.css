@@ -10,8 +10,8 @@
   --accent: linear-gradient(135deg, #6dd3ff 0%, #7c6bff 60%);
   --accent-soft: rgba(124, 107, 255, 0.1);
   --glass-border: rgba(255, 255, 255, 0.06);
-  --bg-image: url("/images/background.jpg");
-  --bg-image-dark: url("/images/dark_background.jpg");
+  --bg-image: url("../images/background.jpg");
+  --bg-image-dark: url("../images/dark_background.jpg");
   --bg-overlay-top: rgba(6, 10, 20, 0.14);
   --bg-overlay-bottom: rgba(5, 9, 20, 0.6);
 }
