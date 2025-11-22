@@ -90,8 +90,7 @@ Since this project relies on Serverless Functions, you must use the Netlify CLI 
 **1. Clone the repository**
 
 ```bash
-git clone [https://github.com/Gugilla-Aakash/weather-dashboard.git](https://github.com/Gugilla-Aakash/weather-dashboard.git)
-cd weather-dashboard
+git clone https://github.com/Gugilla-Aakash/weather-dashboard.git
 ```
 
 **2. Install Dependencies & CLI**
