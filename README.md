@@ -1,282 +1,137 @@
-```markdown
-# Weather Dashboard — LiveWeatherWatch
+````markdown
+# LiveWeatherWatch — Production-Grade Weather Dashboard
 
-**Production-ready, accessible, and deployable single-page weather dashboard built with vanilla JS + Netlify Functions (OpenWeather proxy).**  
-*Role: Full-stack frontend engineer — delivering pixel-perfect UI, resilient API proxy, caching, accessibility, and production deployment.*
+[![Netlify Status](https://api.netlify.com/api/v1/badges/b0b0b0-status-placeholder/deploy-status)](https://liveweatherwatch.netlify.app/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
----
-## 📸 Screenshots
+A highly performant, security-focused weather dashboard built with **Vanilla JavaScript** and **Serverless Functions**.
 
-### Main Interface
-A clean glassmorphism interface with real-time weather data, AQI metrics, hourly forecast, 5-day forecast, sunrise/sunset, geolocation fallback, and fully persistent dark mode.
+This project demonstrates a "security-first" approach to frontend development by implementing a custom API proxy to protect credentials, alongside robust client-side caching and resilient error handling patterns.
 
-![Desktop Light](/screenshots/desktop-light.png)
-![Desktop Dark](/screenshots/desktop-dark.png)
-![Mobile Light](/screenshots/mobile-light.jpeg)
-![Mobile Dark](/screenshots/mobile-dark.jpeg)
+### 🔗 **[View Live Production Deployment](https://liveweatherwatch.netlify.app/)**
 
 ---
 
+## 📸 Interface & UX
 
-## 🚀 Quick elevator pitch (what I would tell a hiring manager)
+Designed with a responsive Glassmorphism UI that adapts to system preferences and ambient lighting conditions.
 
-A polished, production-ready weather dashboard showcasing strong product sense and engineering fundamentals: a modern responsive UI, robust client logic (caching, fail-safes, offline-friendly behavior), secure serverless API proxying, accessibility-focused markup, and a clean CI/CD-friendly deployment pipeline.  
-This repo demonstrates how I think about UX, reliability, observability, and secure API usage — exactly what large MNCs expect from mid-to-senior frontend engineers.
+| **Desktop Light** | **Desktop Dark** |
+|:---:|:---:|
+| ![Desktop Light](./screenshots/desktop-light.png) | ![Desktop Dark](./screenshots/desktop-dark.png) |
 
----
-
-## 🔗 Live demo
-
-**Production:** https://liveweatherwatch.netlify.app/
-
----
-
-## 🛠️ Tech stack
-
-- **Frontend:** HTML5, modern ES (vanilla JS), CSS variables + responsive breakpoints, Bootstrap utilities  
-- **Serverless / Proxy:** Netlify Functions (Node 18) to securely wrap OpenWeather API  
-- **Hosting / CI:** Netlify (publish directory: `src`, functions in `netlify/functions`)  
-- **Engineering Tools:** Fetch with timeout, AbortController, runtime caching, image fallbacks, alt-text generation  
-- **Testing / Observability:** strategies provided below (Jest, Playwright, Lighthouse)
+| **Mobile Light** | **Mobile Dark** |
+|:---:|:---:|
+| ![Mobile Light](./screenshots/mobile-light.jpeg) | ![Mobile Dark](./screenshots/mobile-dark.jpeg) |
 
 ---
 
-## ✅ Key features & engineering highlights
+## 🏗️ Engineering & Architecture Decisions
 
-- **Modern glass UI** — responsive grid layout, animated interactions, optimized contrast for accessibility  
-- **Secure serverless API proxy** — prevents exposing `OPENWEATHER_KEY` in frontend  
-- **Resilient client logic** — abortable fetches, timeouts, structured error toasts, defensive parsing  
-- **Caching layer** — 5-minute forecast cache reduces API calls and improves UX  
-- **Icon fallback engine** — auto-selects icons, resolves extension, and gracefully falls back  
-- **Timezone-correct rendering** — accurate local timestamps using timezone offset  
-- **AQI integration** — PM2.5, PM10, NO₂, O₃ + mapped AQI categories (Good → Very Poor)  
-- **Realtime hourly forecast** — smart slicing of forecast list based on current UTC  
-- **Dark mode** — persistent via localStorage, with dynamic background resolution  
-- **Improved UX for slow/limited networks** — timeouts, abortable requests, safe fallback UI  
-- **Security-first approach** — no secrets in client code; serverless function validation
+This is not just a fetch-and-render application. The architecture was chosen to solve specific production challenges:
+
+### 1. Security: Serverless API Proxy
+Instead of exposing the `OPENWEATHER_KEY` in the frontend bundle (a common vulnerability), I architected a serverless middle-tier using **Netlify Functions**.
+* **Mechanism:** The frontend requests data from `/.netlify/functions/openweather`.
+* **Benefit:** The API key never leaves the server environment.
+* **Control:** The proxy creates an allow-list of endpoints, preventing malicious actors from using my quota for unauthorized queries.
+
+### 2. Performance: Vanilla JS & Caching
+* **Why No Framework?** To demonstrate mastery of the DOM and browser APIs without the overhead of React or Vue. The app loads instantly with a near-perfect Lighthouse score.
+* **Optimistic Caching:** Implemented a custom 5-minute TTL in-memory cache (`state.forecastCache`) to minimize API calls and prevent hitting rate limits during rapid navigation.
+
+### 3. Resilience: Network Handling
+* **Race Condition Handling:** Uses `AbortController` to cancel stale requests. If a user types "London" then quickly switches to "Paris", the "London" request is aborted to ensure the UI never shows mismatched data.
+* **Debouncing & Timeouts:** Custom `fetchWithTimeout` wrapper ensures the app doesn't hang indefinitely on slow networks.
 
 ---
 
-## 📂 Project structure
+## 🚀 Key Features
 
+* **Real-time Weather & AQI:** detailed metrics including PM2.5, PM10, NO₂, and O₃.
+* **Smart Date Handling:** Timestamps are converted to the *target city's* local time zone, not the user's browser time.
+* **Persistent Dark Mode:** Theme preference is saved in `localStorage` and auto-resolves against system settings on first load.
+* **Geolocation API:** One-click "Locate Me" functionality with reverse geocoding.
+* **Dynamic Assets:** Weather icons and background gradients adapt dynamically based on weather codes (WMO) and time of day (sunrise/sunset calculations).
+
+---
+
+## 🛠️ Tech Stack
+
+* **Frontend:** HTML5, CSS3 (Variables, Flexbox/Grid), ES6+ JavaScript.
+* **Backend:** Node.js (Netlify Functions).
+* **Styling:** Custom CSS with Bootstrap 5 for grid utility classes.
+* **API:** OpenWeatherMap (OneCall, Air Pollution, Geocoding).
+* **CI/CD:** Automated deployments via Netlify on git push.
+
+---
+
+## 📂 Project Structure
+
+```text
+.
+├── netlify/functions/    # Serverless backend logic (API Proxy)
+│   └── openweather.js    # Secure wrapper for OpenWeather API
+├── screenshots/          # Demo assets
+├── src/
+│   ├── index.html        # Semantic HTML5 structure
+│   ├── js/
+│   │   └── script.js     # Core application logic & state management
+│   └── styles/
+│       └── style.css     # CSS variables & glassmorphism styles
+└── netlify.toml          # Build configuration & redirects
+````
+
+-----
+
+## 💻 Local Development
+
+Since this project relies on Serverless Functions, you must use the Netlify CLI to proxy the backend locally.
+
+**1. Clone the repository**
+
+```bash
+git clone [https://github.com/Gugilla-Aakash/weather-dashboard.git](https://github.com/Gugilla-Aakash/weather-dashboard.git)
+cd weather-dashboard
 ```
 
-.
-├── README.md
-├── screenshots/
-│ ├── desktop-light.png
-│ ├── desktop-dark.png
-│ ├── mobile-light.jpeg
-│ ├── mobile-dark.jpeg
-│
-├── src/
-│ ├── index.html
-│ ├── styles/
-│ │ └── style.css
-│ ├── js/
-│ │ └── script.js
-│ └── images/
-│ └── (weather icons, backgrounds, misc assets)
-│
-├── netlify/
-│ └── functions/
-│ └── openweather.js
-│
-├── netlify.toml
-└── package.json
-
-````
-
-> **Note:** Netlify publishes the `src/` directory and executes lambda functions inside `netlify/functions`.
-
----
-
-## 🧪 Install & run locally (using Netlify dev)
-
-> Because this project uses Netlify Functions, the best local workflow uses Netlify CLI.
-
-### 1. Clone the repo
-```bash
-git clone <repo-url>
-cd weather-dashboard
-````
-
-### 2. Install Netlify CLI
+**2. Install Dependencies & CLI**
 
 ```bash
+npm install
 npm install -g netlify-cli
 ```
 
-### 3. Add your API key
+**3. Configure Environment Variables**
+Create a `.env` file in the root or set it in your terminal session:
 
 ```bash
-export OPENWEATHER_KEY="your_key_here"
 # Windows (PowerShell)
-# $env:OPENWEATHER_KEY="your_key_here"
+$env:OPENWEATHER_KEY="your_api_key_here"
+
+# Mac/Linux
+export OPENWEATHER_KEY="your_api_key_here"
 ```
 
-### 4. Run locally
+**4. Run Locally**
 
 ```bash
 netlify dev
 ```
 
-### 5. Visit
+*The app will run at `http://localhost:8888`. The Netlify CLI will automatically handle the routing from `/api/*` to the local serverless function.*
+
+-----
+
+## 🔮 Future Roadmap
+
+  * **Unit Testing:** Integration of Jest for testing utility functions (`degToCompass`, `iconFilename`).
+  * **PWA Support:** Adding a Service Worker for full offline support.
+  * **Historical Data:** Charting temperature trends using a charting library.
+
+-----
+
+Made with ❤️ by **[Aakash Gugilla](https://www.google.com/search?q=https://github.com/Gugilla-Aakash)**.
 
 ```
-http://localhost:8888
-```
-
----
-
-## ⚙️ Deployment notes
-
-* Required environment variable: **OPENWEATHER_KEY**
-  (Set inside Netlify → Site Settings → Build & Deploy → Environment)
-
-### `netlify.toml` (already configured)
-
-```toml
-[build]
-  command = "npm run build"
-  publish = "src"
-  functions = "netlify/functions"
-```
-
----
-
-## 🔐 API proxy: design & security
-
-The serverless proxy (`openweather.js`) ensures:
-
-* API key never shipped to client
-* Only allowed query parameters forwarded
-* Unified error handling and status passthrough
-* Safe extension point for rate limiting / logging
-
-This is essential for enterprise-grade security and compliance.
-
----
-
-## 🧩 Maintainability & architecture choices
-
-* Modular logic:
-  `updateCurrentWeather`, `updateFiveDayForecast`, `updateTodayHourly`
-* Defensive coding: fallback text, safe DOM access, structured error toasts
-* Caching: 5-min TTL for forecast results
-* Accessibility:
-
-  * keyboard input handling
-  * alt text auto-generation
-  * readable contrast in both light/dark modes
-* Smooth animations wrapped in reusable helper (`animateEl`)
-
----
-
-## 🧠 Product & UX reasoning (talking points for interviews)
-
-* Secure serverless proxy rather than leaking API keys
-* User-centered: handles slow connections, rate limits, invalid input gracefully
-* Modular layout ready to expand (UV Index, radar map, pollen, etc.)
-* Dark mode persistence — improving personalization
-* Caching: better UX + lower API usage cost
-
----
-
-## 🧪 Testing strategy (recommended)
-
-* **Unit tests (Jest)**
-
-  * `degToCompass`
-  * `iconFilename`
-  * `formatLocal`
-  * `imageExists` (mocked)
-
-* **Integration tests**
-
-  * mock fetch to Netlify function
-  * verify DOM updates for weather + forecast
-
-* **E2E tests (Playwright)**
-
-  * Search workflow
-  * Geolocation fallback
-  * Dark mode
-  * AQI rendering
-
-* **Lighthouse audit**
-
-  * Performance
-  * Accessibility
-  * PWA (optional upgrade)
-
----
-
-## 🧵 CI/CD (recommended)
-
-* GitHub Actions:
-
-  * ESLint
-  * Prettier
-  * Jest
-  * Lighthouse CI (fail PRs below thresholds)
-* Netlify deploy previews for every pull request
-* Automated environment validation (OPENWEATHER_KEY existence)
-
----
-
-## 📊 Observability & monitoring (enterprise-grade)
-
-* Integrate Sentry/LogRocket
-* Track client JS errors and slow network events
-* Add structured logs to Netlify Functions
-* API rate-limit monitoring to avoid quota exhaustion
-
----
-
-## 🔒 Security checklist
-
-* [x] API key never exposed in frontend
-* [x] Serverless proxy with validation
-* [ ] Add caching/rate-limiting to function (scale-ready)
-* [ ] Sanitize user inputs at function level
-
----
-
-## 🚢 Deploy checklist (for reviewers)
-
-1. Set `OPENWEATHER_KEY` in Netlify
-2. Confirm build publishes `src/`
-3. Validate serverless function returns JSON
-4. Run smoke test:
-
-   * Search city
-   * Geolocation
-   * Forecast
-   * AQI
-   * Dark mode toggle
-
----
-
-## 📝 Resume-ready blurb
-
-> Built and deployed a production-ready weather visualization dashboard with secure serverless API proxying, robust client-side caching, dark mode, real-time AQI integration, and a responsive glass-UI. Demonstrates full-stack frontend engineering, clean architecture, reliability mechanisms, and deployment on Netlify.
-
----
-
-## 🔍 Files for reviewers
-
-* `src/index.html` — markup + accessibility
-* `src/styles/style.css` — design system and layout
-* `src/js/script.js` — core logic, caching, API flows
-* `netlify/functions/openweather.js` — secure API proxy layer
-* `netlify.toml` — deployment configuration
-
----
-
-## 🧩 Minimal `.env` example
-
-```
-# DO NOT COMMIT THIS FILE
-OPENWEATHER_KEY=sk_live_your_key_here
 ```
