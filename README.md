@@ -1,7 +1,6 @@
-````markdown
 # LiveWeatherWatch — Production-Grade Weather Dashboard
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/b0b0b0-status-placeholder/deploy-status)](https://liveweatherwatch.netlify.app/)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/e56fa0a7-90b4-4968-b99d-ef70a258b23d/deploy-status)](https://app.netlify.com/projects/liveweatherwatch/deploys)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
 A highly performant, security-focused weather dashboard built with **Vanilla JavaScript** and **Serverless Functions**.
@@ -91,8 +90,7 @@ Since this project relies on Serverless Functions, you must use the Netlify CLI 
 **1. Clone the repository**
 
 ```bash
-git clone [https://github.com/Gugilla-Aakash/weather-dashboard.git](https://github.com/Gugilla-Aakash/weather-dashboard.git)
-cd weather-dashboard
+git clone https://github.com/Gugilla-Aakash/weather-dashboard.git
 ```
 
 **2. Install Dependencies & CLI**
@@ -132,6 +130,3 @@ netlify dev
 -----
 
 Made with ❤️ by **[Aakash Gugilla](https://www.google.com/search?q=https://github.com/Gugilla-Aakash)**.
-
-```
-```
