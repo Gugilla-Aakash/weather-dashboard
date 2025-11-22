@@ -70,7 +70,7 @@ Instead of exposing the `OPENWEATHER_KEY` in the frontend bundle (a common vulne
 ```text
 .
 ├── api    # Serverless backend logic (API Proxy)
-│   └── openweather.js    # Secure wrapper for OpenWeather API
+│   └── weather.js    # Secure wrapper for OpenWeather API
 ├── screenshots/          # Demo assets
 ├── src/
 │   ├── index.html        # Semantic HTML5 structure
