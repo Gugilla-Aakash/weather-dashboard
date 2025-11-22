@@ -77,8 +77,7 @@ Instead of exposing the `OPENWEATHER_KEY` in the frontend bundle (a common vulne
 │   ├── js/
 │   │   └── script.js     # Core application logic & state management
 │   └── styles/
-│       └── style.css     # CSS variables & glassmorphism styles
-└── netlify.toml          # Build configuration & redirects
+        └── style.css     # CSS variables & glassmorphism styles
 ````
 
 -----
