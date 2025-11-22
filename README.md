@@ -1,4 +1,4 @@
-````markdown
+````
 # LiveWeatherWatch — Production-Grade Weather Dashboard
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/b0b0b0-status-placeholder/deploy-status)](https://liveweatherwatch.netlify.app/)
@@ -133,5 +133,4 @@ netlify dev
 
 Made with ❤️ by **[Aakash Gugilla](https://www.google.com/search?q=https://github.com/Gugilla-Aakash)**.
 
-```
 ```
