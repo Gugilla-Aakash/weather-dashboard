@@ -7,7 +7,7 @@ A highly performant, security-focused weather dashboard built with **Vanilla Jav
 
 This project demonstrates a "security-first" approach to frontend development by implementing a custom API proxy to protect credentials, alongside robust client-side caching and resilient error handling patterns.
 
-### 🔗 **[View Live Production Deployment](https://liveweatherwatch.netlify.app/)**
+### 🔗 **[View Live Production Deployment](https://weather-dashboard-two-iota.vercel.app/)**
 
 ---
 
@@ -69,7 +69,7 @@ Instead of exposing the `OPENWEATHER_KEY` in the frontend bundle (a common vulne
 
 ```text
 .
-├── netlify/functions/    # Serverless backend logic (API Proxy)
+├── api    # Serverless backend logic (API Proxy)
 │   └── openweather.js    # Secure wrapper for OpenWeather API
 ├── screenshots/          # Demo assets
 ├── src/
