@@ -401,7 +401,7 @@ function getAQIClass(aqi) {
 async function fetchAQIData(lat, lon) {
   if (!lat || !lon) return;
   try {
-    const url = `/.netlify/functions/openweather?endpoint=air_pollution&lat=${encodeURIComponent(
+    const url = `/api/weather?endpoint=air_pollution&lat=${encodeURIComponent(
       lat
     )}&lon=${encodeURIComponent(lon)}`;
     const res = await fetchWithTimeout(url, {}, 10000);
@@ -441,7 +441,7 @@ async function fetchAQIData(lat, lon) {
 
 async function reverseGeocode(lat, lon) {
   try {
-    const url = `/.netlify/functions/openweather?endpoint=geocode_reverse&lat=${encodeURIComponent(
+    const url = `/api/weather?endpoint=geocode_reverse&lat=${encodeURIComponent(
       lat
     )}&lon=${encodeURIComponent(lon)}&limit=1`;
     const res = await fetchWithTimeout(url, {}, 8000);
@@ -487,7 +487,7 @@ async function fetchForecast(lat, lon, tz) {
       updateTodayHourly(cached.data.list, tz);
       return;
     }
-    const url = `/.netlify/functions/openweather?endpoint=forecast&lat=${encodeURIComponent(
+    const url = `/api/weather?endpoint=forecast&lat=${encodeURIComponent(
       lat
     )}&lon=${encodeURIComponent(lon)}&units=metric`;
     const res = await fetchWithTimeout(url, {}, 12000);
@@ -514,7 +514,7 @@ async function fetchDataCity(cityName, saveToStorage = true) {
     } catch (e) {}
   state.lastFetchController = new AbortController();
   try {
-    const url = `/.netlify/functions/openweather?endpoint=weather&q=${encodeURIComponent(
+    const url = `/api/weather?endpoint=weather&q=${encodeURIComponent(
       cityName
     )}&units=metric`;
     const res = await fetchWithTimeout(
@@ -568,7 +568,7 @@ async function fetchDataByCoords(lat, lon) {
       state.lastFetchController = null;
       return;
     }
-    const url = `/.netlify/functions/openweather?endpoint=weather&lat=${encodeURIComponent(
+    const url = `/api/weather?endpoint=weather&lat=${encodeURIComponent(
       lat
     )}&lon=${encodeURIComponent(lon)}&units=metric`;
     const res = await fetchWithTimeout(
