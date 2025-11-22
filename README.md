@@ -17,6 +17,7 @@ A clean glassmorphism interface with real-time weather data, AQI metrics, hourly
 
 ---
 
+
 ## 🚀 Quick elevator pitch (what I would tell a hiring manager)
 
 A polished, production-ready weather dashboard showcasing strong product sense and engineering fundamentals: a modern responsive UI, robust client logic (caching, fail-safes, offline-friendly behavior), secure serverless API proxying, accessibility-focused markup, and a clean CI/CD-friendly deployment pipeline.  
