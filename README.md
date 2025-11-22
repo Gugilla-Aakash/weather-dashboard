@@ -11,10 +11,10 @@
 ### Main Interface
 A clean glassmorphism interface with real-time weather data, AQI metrics, hourly forecast, 5-day forecast, sunrise/sunset, geolocation fallback, and fully persistent dark mode.
 
-![Live Dashboard Desktop Light Screenshot](./screenshots/desktop-light.png)
-![Live Dashboard Desktop Dark Screenshot](./screenshots/desktop-dark.png)
-![Live Dashboard Mobile Light Screenshot](./screenshots/mobile-light.jpeg)
-![Live Dashboard Mobile Dark Screenshot](./screenshots/mobile-dark.jpeg)
+![Desktop Light](./screenshots/desktop-light.png)
+![Desktop Dark](./screenshots/desktop-dark.png)
+![Mobile Light](./screenshots/mobile-light.jpeg)
+![Mobile Dark](./screenshots/mobile-dark.jpeg)
 
 
 ---
